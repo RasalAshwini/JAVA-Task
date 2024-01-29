@@ -1,0 +1,101 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class EnhancedGUIExample extends Frame implements ActionListener, ItemListener {
+    Checkbox checkbox1, checkbox2;
+    CheckboxGroup radioGroup;
+    Checkbox radio1, radio2, radio3;
+    TextField textField;
+    Button button1, button2, button3, button4;
+
+    public EnhancedGUIExample() {
+        setTitle("Enhanced GUI Example");
+        setSize(400, 300);
+        setLayout(new FlowLayout());
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                System.exit(0);
+            }
+        });
+
+        checkbox1 = new Checkbox("Checkbox 1");
+        checkbox2 = new Checkbox("Checkbox 2");
+        checkbox1.addItemListener(this);
+        checkbox2.addItemListener(this);
+
+        radioGroup = new CheckboxGroup();
+        radio1 = new Checkbox("Radio 1", radioGroup, false);
+        radio2 = new Checkbox("Radio 2", radioGroup, false);
+        radio3 = new Checkbox("Radio 3", radioGroup, false);
+        radio1.addItemListener(this);
+        radio2.addItemListener(this);
+        radio3.addItemListener(this);
+
+        textField = new TextField(20);
+
+        button1 = new Button("Button 1");
+        button2 = new Button("Button 2");
+        button3 = new Button("Button 3");
+        button4 = new Button("Button 4");
+
+        button1.addActionListener(this);
+        button2.addActionListener(this);
+        button3.addActionListener(this);
+        button4.addActionListener(this);
+
+        // Set colors for buttons
+        button1.setBackground(Color.RED);
+        button2.setBackground(Color.GREEN);
+        button3.setBackground(Color.BLUE);
+        button4.setBackground(Color.YELLOW);
+
+        add(checkbox1);
+        add(checkbox2);
+        add(radio1);
+        add(radio2);
+        add(radio3);
+        add(textField);
+        add(button1);
+        add(button2);
+        add(button3);
+        add(button4);
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        Button source = (Button) ae.getSource();
+        Color buttonColor = source.getBackground();
+        textField.setText("Button " + source.getLabel() + " clicked. Color: " + getColorName(buttonColor));
+    }
+
+    public void itemStateChanged(ItemEvent ie) {
+        Object source = ie.getItemSelectable();
+
+        if (source == checkbox1 || source == checkbox2) {
+            Checkbox selectedCheckbox = (Checkbox) source;
+            textField.setText("Selected Checkbox: " + selectedCheckbox.getLabel());
+        } else if (source == radio1 || source == radio2 || source == radio3) {
+            Checkbox selectedRadio = (Checkbox) source;
+            textField.setText("Selected Radio Button: " + selectedRadio.getLabel());
+        }
+    }
+
+    // Helper method to get color name
+    private String getColorName(Color color) {
+        if (color.equals(Color.RED)) {
+            return "Red";
+        } else if (color.equals(Color.GREEN)) {
+            return "Green";
+        } else if (color.equals(Color.BLUE)) {
+            return "Blue";
+        } else if (color.equals(Color.YELLOW)) {
+            return "Yellow";
+        } else {
+            return "Unknown";
+        }
+    }
+
+    public static void main(String[] args) {
+        EnhancedGUIExample enhancedGUIExample = new EnhancedGUIExample();
+        enhancedGUIExample.setVisible(true);
+    }
+}
